@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: lab12-default
+spec:
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              io.kompose.network/lab12-default: "true"
+  podSelector:
+    matchLabels:
+      io.kompose.network/lab12-default: "true"

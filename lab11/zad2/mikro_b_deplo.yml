@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b-deplo
+spec:
+  selector:
+    matchLabels:
+      app: mikro-b
+  template:
+    metadata:
+      labels:
+        app: mikro-b
+    spec:
+      containers:
+      - name: mikro-b
+        image: xkuklix/lab11:zad2.b
+        
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        env:
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: USER
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: PASSWORD
+          - name: MONGO_URI
+            valueFrom:
+              configMapKeyRef:
+                name: mongo-configmap
+                key: URI
+        ports:
+        - containerPort: 5000

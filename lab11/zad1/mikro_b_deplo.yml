@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b-deplo
+spec:
+  selector:
+    matchLabels:
+      app: mikro-b
+  template:
+    metadata:
+      labels:
+        app: mikro-b
+    spec:
+      containers:
+      - name: mikro-b
+        image: xkuklix/lab11:zad1.b
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000

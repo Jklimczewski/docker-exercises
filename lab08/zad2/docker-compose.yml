@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  myredis:
+      container_name: myredis
+      image: redis:latest
+  app:
+    depends_on:
+      - myredis
+    container_name: express_app
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    command: node index.js
+    ports:
+      - 3000:3000
+    environment:
+      - REDIS_HOST=myredis
+      - REDIS_PORT=6379

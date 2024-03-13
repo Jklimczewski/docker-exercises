@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    container_name: db
+    image: mongo:${MONGO_VERSION}
+    networks:
+      - net_A
+    volumes:
+      - mydb:/data/db
+    ports:
+      - ${MONGO_PORT}:27017
+  server:
+    container_name: server
+    image: xkuklix/test:test
+    depends_on:
+      - db
+    networks:
+      - net_A
+    ports:
+      - 3003:3003
+
+volumes:
+  mydb: {}
+
+networks:
+  net_A:
+    driver: bridge

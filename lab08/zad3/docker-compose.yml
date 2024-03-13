@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  myredis:
+    container_name: myredis
+    image: 'redis:alpine' 
+
+  mynginx:
+    depends_on:
+      - mybackend
+    container_name: mynginx
+    build:
+      dockerfile: Dockerfile
+      context: ./mynginx
+    ports:
+      - '80:80'
+  
+  mybackend:
+    depends_on:
+      - myredis
+      - mypostgres
+    container_name: mybackend
+    build:
+      dockerfile: Dockerfile
+      context: ./mybackend
+    command: node index.js
+    environment:
+      - REDIS_HOST=myredis
+      - REDIS_PORT=6379
+
+  mypostgres:
+    image: postgres:alpine
+    container_name: mypostgres
+    environment:
+      - POSTGRES_PASSWORD=value
+      - POSTGRES_DB=myappdb
+      - POSTGRES_USER=myappuser
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - mydb:/var/lib/postgresql/data
+volumes:
+  mydb: {}

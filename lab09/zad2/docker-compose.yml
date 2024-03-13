@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: node_app
+    build: ./mybackend
+    command: node server.js
+    ports:
+      - 3000:3000
+  db:
+    container_name: mongo_db
+    image: amd64/mongo

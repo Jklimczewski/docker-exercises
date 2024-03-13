@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -f postgres-compose.yml
+    kompose.version: 1.28.0 (c4137012e)
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: db
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -f postgres-compose.yml
+        kompose.version: 1.28.0 (c4137012e)
+      labels:
+        io.kompose.network/zad2-default: "true"
+        io.kompose.service: db
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: example
+          image: postgres:alpine
+          name: db
+          ports:
+            - containerPort: 5432
+          resources: {}
+      restartPolicy: Always
+status: {}

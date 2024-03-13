@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: node_app
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    command: node index.js
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: ["CMD", "ping", "-c", "3", "http://localhost:3000"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3

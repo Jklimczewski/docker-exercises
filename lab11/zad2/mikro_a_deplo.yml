@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: a-deplo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mikro-a
+  template:
+    metadata:
+      labels:
+        app: mikro-a
+    spec:
+      containers:
+      - name: mikro-a
+        image: xkuklix/lab11:zad1.a.2
+        resources:
+          limits:
+            memory: "500mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
